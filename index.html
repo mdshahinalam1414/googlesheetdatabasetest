@@ -2,38 +2,178 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Secure Sheet Website</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🎬 Sci-Fi Movie Database</title>
 <style>
-body{font-family:Arial,sans-serif;background:#eef2f7;padding:20px;}
-.box{background:#fff;padding:15px;margin-bottom:15px;border-radius:6px;box-shadow:0 0 5px #ccc;}
-input,button{padding:7px;margin:4px;border-radius:4px;border:1px solid #ccc;}
-table{width:100%;border-collapse:collapse;margin-top:10px;}
-th,td{border:1px solid #ccc;padding:6px;text-align:center;}
-button{cursor:pointer;background:#008C44;color:white;border:none;}
-button:hover{opacity:0.8;}
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap');
+
+body {
+  font-family: 'Orbitron', sans-serif;
+  background: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
+  color: #fff;
+  padding: 20px;
+  min-height: 100vh;
+}
+
+h2 {
+  text-align: center;
+  color: #00ffff;
+  text-shadow: 0 0 20px #00ffff, 0 0 40px #ff00ff;
+  margin-bottom: 25px;
+  font-size: 2.5em;
+}
+
+.box {
+  background: rgba(0, 0, 0, 0.8);
+  border: 2px solid #00ffff;
+  box-shadow: 0 0 20px #00ffff, 0 0 50px #ff00ff;
+  border-radius: 15px;
+  padding: 25px;
+  margin-bottom: 25px;
+  transition: 0.5s;
+}
+
+.box:hover {
+  box-shadow: 0 0 30px #00ffff, 0 0 60px #ff00ff;
+}
+
+input, button, select {
+  padding: 10px 14px;
+  margin: 5px 5px 12px 0;
+  border-radius: 8px;
+  border: 1px solid #00ffff;
+  background: rgba(0,0,0,0.6);
+  color: #00ffff;
+  font-size: 15px;
+  transition: 0.3s;
+}
+
+input::placeholder {
+  color: #00ffffaa;
+}
+
+input:hover, select:hover {
+  background: rgba(0,0,0,0.8);
+  box-shadow: 0 0 10px #00ffff, 0 0 20px #ff00ff;
+}
+
+button {
+  cursor: pointer;
+  background: linear-gradient(45deg, #00ffff, #ff00ff, #00ffff);
+  color: #fff;
+  border: none;
+  font-weight: bold;
+  transition: 0.3s;
+  box-shadow: 0 0 15px #00ffff;
+}
+
+button:hover {
+  background: linear-gradient(45deg, #ff00ff, #00ffff, #ff00ff);
+  box-shadow: 0 0 25px #ff00ff, 0 0 50px #00ffff;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 15px;
+  box-shadow: 0 0 15px #00ffff;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+th, td {
+  border: 1px solid #00ffff;
+  padding: 10px;
+  text-align: center;
+}
+
+th {
+  background: linear-gradient(90deg, #00ffff, #ff00ff);
+  color: black;
+  text-shadow: none;
+}
+
+tr:nth-child(even) {
+  background: rgba(0, 255, 255, 0.05);
+}
+
+tr:hover {
+  background: rgba(0, 255, 255, 0.15);
+}
+
+td input, td select {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 6px;
+  border-radius: 6px;
+  border: 1px solid #00ffff;
+  background: rgba(0,0,0,0.6);
+  color: #00ffff;
+}
+
+td a {
+  color: #ff00ff;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+td a:hover {
+  text-decoration: underline;
+  color: #00ffff;
+}
 </style>
 </head>
 <body>
 
-<h2>🔐 Secure Sheet System</h2>
+<h2>🎬 Sci-Fi Movie Database</h2>
 
 <div class="box">
-<h3>Add Data</h3>
-<input id="name" placeholder="Name">
-<input id="mobile" placeholder="Mobile">
-<input id="amount" placeholder="Amount">
+<h3>Add New Movie/Series</h3>
+<input id="name" placeholder="Movie / Series Name">
+
+<input list="genreList" id="genre" placeholder="Select or type Genre">
+<datalist id="genreList">
+  <option>Action</option>
+  <option>Adventure</option>
+  <option>Drama</option>
+  <option>Comedy</option>
+  <option>Horror</option>
+  <option>Romance</option>
+  <option>Sci-Fi</option>
+</datalist>
+<button onclick="addOption('genre')">+ Add Genre</button>
+
+<input list="countryList" id="country" placeholder="Select or type Country">
+<datalist id="countryList">
+  <option>USA</option>
+  <option>UK</option>
+  <option>India</option>
+  <option>Japan</option>
+  <option>Korea</option>
+  <option>France</option>
+</datalist>
+<button onclick="addOption('country')">+ Add Country</button>
+
+<input id="year" placeholder="Release Year" type="number">
+<input id="link" placeholder="Link (Trailer / IMDb / Streaming)">
 <button onclick="save()">Save</button>
 </div>
 
 <div class="box">
-<h3>Search</h3>
-<input id="key" placeholder="ID / Name / Mobile">
+<h3>Search Database</h3>
+<input id="key" placeholder="ID / Name / Genre / Country">
 <button onclick="search()">Search</button>
 
 <table>
 <thead>
 <tr>
-<th>ID</th><th>Name</th><th>Mobile</th><th>Amount</th><th>Action</th>
+<th>ID</th>
+<th>Name</th>
+<th>Genre</th>
+<th>Country</th>
+<th>Year</th>
+<th>Link</th>
+<th>Action</th>
 </tr>
 </thead>
 <tbody id="res"></tbody>
@@ -41,40 +181,58 @@ button:hover{opacity:0.8;}
 </div>
 
 <script>
-// ✅ তোমার Apps Script Web App URL
-var API = "https://script.google.com/macros/s/AKfycbza5KiEt6Vyq0pFtbA0WyX-XcbI9R8QQkoMPyIIYBQi1nHa8z-h_zkU6Lq8A2waK3qZxg/exec";
+var API = "https://script.google.com/macros/s/YOUR_SCRIPT_ID/exec";
 
-// Add Data
+function addOption(type){
+  var val = prompt("Enter new " + (type=="genre"?"Genre":"Country") + ":");
+  if(val){
+    var list = document.getElementById(type+"List");
+    var exists = Array.from(list.options).some(o=>o.value.toLowerCase() === val.toLowerCase());
+    if(!exists){
+      var option = document.createElement("option");
+      option.value = val;
+      list.appendChild(option);
+      document.getElementById(type).value = val;
+      alert(val + " added to the list!");
+    } else {
+      alert(val + " already exists in the list!");
+      document.getElementById(type).value = val;
+    }
+  }
+}
+
 function save() {
   var data = {
     action: "add",
     id: Date.now(),
     name: document.getElementById("name").value,
-    mobile: document.getElementById("mobile").value,
-    amount: document.getElementById("amount").value
+    genre: document.getElementById("genre").value,
+    country: document.getElementById("country").value,
+    year: document.getElementById("year").value,
+    link: document.getElementById("link").value
   };
 
-  fetch(API, {
-    method: "POST",
-    body: JSON.stringify(data)
-  })
-  .then(function(){ alert("Saved!"); })
-  .catch(function(err){ alert("Error: "+err); });
+  fetch(API, { method: "POST", body: JSON.stringify(data) })
+    .then(()=>{ alert("Saved!"); clearInputs(); })
+    .catch(err=>alert("Error: "+err));
 }
 
-// Search Data
+function clearInputs() {
+  document.getElementById("name").value = "";
+  document.getElementById("genre").value = "";
+  document.getElementById("country").value = "";
+  document.getElementById("year").value = "";
+  document.getElementById("link").value = "";
+}
+
 function search() {
   var key = document.getElementById("key").value;
-  fetch(API, {
-    method: "POST",
-    body: JSON.stringify({action: "search", key: key})
-  })
-  .then(function(resp){ return resp.json(); })
-  .then(show)
-  .catch(function(err){ alert("Error: "+err); });
+  fetch(API, { method: "POST", body: JSON.stringify({action: "search", key: key}) })
+    .then(resp => resp.json())
+    .then(show)
+    .catch(err => alert("Error: "+err));
 }
 
-// Show search results in table
 function show(data){
   var res = document.getElementById("res");
   res.innerHTML = "";
@@ -83,30 +241,30 @@ function show(data){
       <tr>
         <td>${r[0]}</td>
         <td><input id="n${r[0]}" value="${r[1]}"></td>
-        <td><input id="m${r[0]}" value="${r[2]}"></td>
-        <td><input id="a${r[0]}" value="${r[3]}"></td>
+        <td><input list="genreList" id="g${r[0]}" value="${r[2]}"></td>
+        <td><input list="countryList" id="c${r[0]}" value="${r[3]}"></td>
+        <td><input id="y${r[0]}" value="${r[4]}"></td>
+        <td>${r[5]?'<a href="'+r[5]+'" target="_blank">Open Link</a>':''}</td>
         <td><button onclick="update('${r[0]}')">Update</button></td>
       </tr>
     `;
   });
 }
 
-// Update Data
 function update(id){
   var data = {
     action: "update",
     id: id,
     name: document.getElementById("n"+id).value,
-    mobile: document.getElementById("m"+id).value,
-    amount: document.getElementById("a"+id).value
+    genre: document.getElementById("g"+id).value,
+    country: document.getElementById("c"+id).value,
+    year: document.getElementById("y"+id).value,
+    link: document.getElementById("l"+id).value
   };
 
-  fetch(API, {
-    method: "POST",
-    body: JSON.stringify(data)
-  })
-  .then(function(){ alert("Updated!"); })
-  .catch(function(err){ alert("Error: "+err); });
+  fetch(API, { method: "POST", body: JSON.stringify(data) })
+    .then(()=>{ alert("Updated!"); })
+    .catch(err=>alert("Error: "+err));
 }
 </script>
 
