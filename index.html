@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Secure Sheet Website</title>
+<style>
+body{font-family:Arial,sans-serif;background:#eef2f7;padding:20px;}
+.box{background:#fff;padding:15px;margin-bottom:15px;border-radius:6px;box-shadow:0 0 5px #ccc;}
+input,button{padding:7px;margin:4px;border-radius:4px;border:1px solid #ccc;}
+table{width:100%;border-collapse:collapse;margin-top:10px;}
+th,td{border:1px solid #ccc;padding:6px;text-align:center;}
+button{cursor:pointer;background:#008C44;color:white;border:none;}
+button:hover{opacity:0.8;}
+</style>
+</head>
+<body>
+
+<h2>🔐 Secure Sheet System</h2>
+
+<div class="box">
+<h3>Add Data</h3>
+<input id="name" placeholder="Name">
+<input id="mobile" placeholder="Mobile">
+<input id="amount" placeholder="Amount">
+<button onclick="save()">Save</button>
+</div>
+
+<div class="box">
+<h3>Search</h3>
+<input id="key" placeholder="ID / Name / Mobile">
+<button onclick="search()">Search</button>
+
+<table>
+<thead>
+<tr>
+<th>ID</th><th>Name</th><th>Mobile</th><th>Amount</th><th>Action</th>
+</tr>
+</thead>
+<tbody id="res"></tbody>
+</table>
+</div>
+
+<script>
+// ✅ তোমার Apps Script Web App URL
+var API = "https://script.google.com/macros/s/AKfycbza5KiEt6Vyq0pFtbA0WyX-XcbI9R8QQkoMPyIIYBQi1nHa8z-h_zkU6Lq8A2waK3qZxg/exec";
+
+// Add Data
+function save() {
+  var data = {
+    action: "add",
+    id: Date.now(),
+    name: document.getElementById("name").value,
+    mobile: document.getElementById("mobile").value,
+    amount: document.getElementById("amount").value
+  };
+
+  fetch(API, {
+    method: "POST",
+    body: JSON.stringify(data)
+  })
+  .then(function(){ alert("Saved!"); })
+  .catch(function(err){ alert("Error: "+err); });
+}
+
+// Search Data
+function search() {
+  var key = document.getElementById("key").value;
+  fetch(API, {
+    method: "POST",
+    body: JSON.stringify({action: "search", key: key})
+  })
+  .then(function(resp){ return resp.json(); })
+  .then(show)
+  .catch(function(err){ alert("Error: "+err); });
+}
+
+// Show search results in table
+function show(data){
+  var res = document.getElementById("res");
+  res.innerHTML = "";
+  data.forEach(function(r){
+    res.innerHTML += `
+      <tr>
+        <td>${r[0]}</td>
+        <td><input id="n${r[0]}" value="${r[1]}"></td>
+        <td><input id="m${r[0]}" value="${r[2]}"></td>
+        <td><input id="a${r[0]}" value="${r[3]}"></td>
+        <td><button onclick="update('${r[0]}')">Update</button></td>
+      </tr>
+    `;
+  });
+}
+
+// Update Data
+function update(id){
+  var data = {
+    action: "update",
+    id: id,
+    name: document.getElementById("n"+id).value,
+    mobile: document.getElementById("m"+id).value,
+    amount: document.getElementById("a"+id).value
+  };
+
+  fetch(API, {
+    method: "POST",
+    body: JSON.stringify(data)
+  })
+  .then(function(){ alert("Updated!"); })
+  .catch(function(err){ alert("Error: "+err); });
+}
+</script>
+
+</body>
+</html>
